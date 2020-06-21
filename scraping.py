@@ -1,28 +1,33 @@
 from urllib import request
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup as bs4
 
 def scraping():
     #url
-    url = "https://www.ncbi.nlm.nih.gov/pmc/"
-    # url = "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7095524/"
+    # url = "https://www.ncbi.nlm.nih.gov/pmc/"
+    url = "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7095524/"
+    # url = "https://www.nature.com/articles/s41586-020-2404-8"
     # url = "http://www.yomiuri.co.jp/"
-    # url = "http://www.yomiuri.co.jp/"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0"
+        }
+    html = request.Request(url, headers=headers)
 
-    html = request.urlopen(url)
-
-    soup = BeautifulSoup(html, "html.parser")
+    response = request.urlopen(html)
 
     #get headlines
     # mainNewsIndex = soup.find("div", attrs={"class",  "tsec sec"})
-    title = soup.find("div", attrs={"class",  "headerimage"})
+    # title = soup.find("h1", attrs={"class",  "c-article-title"})
+    # print (response.getcode())
+    print (response.read())
+    # title = soup.find_all("div", limit=5)
+    # for res in title:
+    #     print(res)
     # abst = soup.find(id="Abs1")
     # content = soup.find(id="Par1")
 
     #print headlines
     # for headline in headlines:
     #     print(headline.contents[0], headline.span.string)
-    print(title)
-    print(title.string)
 
 def qiita():
 
@@ -30,7 +35,7 @@ def qiita():
     
     html = request.urlopen(url)
 
-    soup = BeautifulSoup(html, "html.parser")
+    soup = bs4(html, "html.parser")
 
     title = soup.find("h1", attrs={"class",  "it-Header_title"})
     print(title.string)
@@ -41,7 +46,7 @@ def nature():
     
     html = request.urlopen(url)
 
-    soup = BeautifulSoup(html, "html.parser")
+    soup = bs4(html, "html.parser")
 
     title = soup.find("h1", attrs={"class",  "title"})
     print(title.string)
